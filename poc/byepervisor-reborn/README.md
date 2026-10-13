@@ -29,5 +29,5 @@ xxd -i break_hv_payload/break_hv.bin | sed s/break_hv_bin/break_hv/g > break_hv_
 
 ## Attribution
 
-Mechanism (khook + `break_hv`) from [PS5Dev/Byepervisor-Reborn](https://github.com/PS5Dev/Byepervisor-Reborn);
+Mechanism (khook + `break_hv`) from ChendoChap's [Byepervisor-Reborn](https://github.com/PS5Dev/Byepervisor-Reborn);
 only the toast text was changed for this PoC.

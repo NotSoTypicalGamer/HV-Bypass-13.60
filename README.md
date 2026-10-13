@@ -20,18 +20,18 @@ but not the PS5 specifics — those are explained inline.
 ## Credits & attribution (who owns what idea)
 
 - **GPU-DMA read/write primitive** — the `/dev/gc` DMA (`PACKET3_DMA_DATA`) + **bit-50**
-  victim-leaf retarget that reaches system RAM and bypasses the CPU NPT — **NotSoTypicalGamer**
-  (this project's owner). This is the Route B primitive *and* the §3 delivery mechanism.
+  victim-leaf retarget that reaches system RAM and bypasses the CPU NPT — **flatz**.
+  This is the Route B primitive *and* the §3 delivery mechanism.
 - **S3-resume `startup_mp` AP-launch bug** (AP cores run in root-0 with an insecure NPT on
   resume) — discovered by **theflow0**.
 - **`s3-resume-startup_mp-ap-launch` write-up / Route A recipe** — **Sonic-Iso**.
 - **Byepervisor-Reborn** — the working 13.60 exploit that resolves ring-0 exec: the **khook**
   (DR7 hardware-breakpoint → #DB → IST-6 ROP) plus the **`break_hv`** AP payload that clears
-  `NP_ENABLE` on all 16 VMCBs — **PS5Dev**.
+  `NP_ENABLE` on all 16 VMCBs — **ChendoChap**.
 - **`sysent` hook + `WRMSR(APICBASE)` → NULL-dispatch HV entry** (9.60 technique; source of
   the `sysent` stride-`0x30` correction that fixed our hijack) — **cedsaill3**.
-- **Relapse kernel R/W** (`aio_multi_wait` race, syscall 663) — the **Relapse** team.
-- **mast1c0re / Luac0re userland entrypoint** — **Gezine** (mast1c0re), Luac0re variant.
+- **Relapse kernel R/W** (`aio_multi_wait` race, syscall 663) — **jordy**.
+- **mast1c0re / Luac0re userland entrypoint** — **CTurt** (mast1c0re) and **Gezine** (Luac0re).
 - **Single-step kernel text recovery** — **sleirsgoevy**.
 - **Analysis, offsets, probes, and this write-up** — **NotSoTypicalGamer**.
 
@@ -101,7 +101,7 @@ parallel probe that could shortcut it.
 
 The hypercall is a CPL-0 instruction (`vmmcall`), and 6.00+ firmware traps attempts to run
 any code that wasn't part of the original kernel image (GMET / XOM). For months this was the
-single blocking item. **It is now resolved** by **Byepervisor-Reborn's khook** (PS5Dev):
+single blocking item. **It is now resolved** by **Byepervisor-Reborn's khook** (ChendoChap):
 
 - Hooks the **#DB** IDT gate (vector 1) on core 0 with **IST 6**.
 - Arms a **DR7 hardware execute-breakpoint** on the target address (`khv_startup_mp` call
@@ -132,18 +132,18 @@ injection and GPU-DMA-into-`.text` plans below are now historical fallbacks.
 
 Everything confirmed working on 13.60; Route A builds on this.
 
-- **Userland exec** — Luac0re (Gezine's mast1c0re variant) via a *Star Wars Racer Revenge*
+- **Userland exec** — Luac0re (mast1c0re by CTurt, Luac0re variant by Gezine) via a *Star Wars Racer Revenge*
   (CUSA03474) PS2-emulator save-data bug → remote Lua loader on TCP 9026. `read64`/`write64`
   are userland-only.
 - **Kernel read/write** — **Relapse** (the `aio_multi_wait` race, syscall 663) gives
   arbitrary kernel R/W + a `kcall`. **Correction:** that `kcall` (`worker_rop.fcall`) is a
   *ring-3* Web-Worker ROP pivot, not ring-0 exec — it can call kernel functions but cannot
   execute `vmmcall`. Offsets in `kernel/reference/relapse-wak1360/`.
-- **GPU-DMA read** — *(NotSoTypicalGamer)* retarget a source PTE leaf (`/dev/gc` ioctl
+- **GPU-DMA read** — *(flatz)* retarget a source PTE leaf (`/dev/gc` ioctl
   `0xC0108102`, `PACKET3_DMA_DATA` opcode `0x50`, **bit-50 set**) and DMA a physical address
   into a staging buffer. **Bypasses the CPU NPT entirely** — it dumped the XOM `.text` and
   read the HV carve-out (the only safe channel into `0x60000000`; a CPU read there panics).
-- **GPU-DMA write** — *(NotSoTypicalGamer)* retarget a destination leaf to system RAM:
+- **GPU-DMA write** — *(flatz)* retarget a destination leaf to system RAM:
   `new = (old & ~phys_mask) | (target_phys & phys_mask) | (1ull<<50)`. Confirmed landing in
   kernel `.data`. This is the Route B primitive *and* the §2.1 delivery mechanism.
 
@@ -255,10 +255,10 @@ coin flip (~1/12) rather than a lever. The watcher `probe98/hvwatch.elf` catches
    manually (Ubuntu `xxd` rejects `-i -n name` together — use
    `xxd -i break_hv.bin | sed s/break_hv_bin/break_hv/g > break_hv.h`); then `make` with
    `PS5_PAYLOAD_SDK`. The payload polls forever after "enter sleep and resume" — the
-   `Welcome to Hypervisor Bypass - NSTG` toast fires 3 s after resume, on success.
+   `HV Bypass Hello World` toast fires 3 s after resume, on success.
 4. **GPU-DMA write:** `/dev/gc` ioctl `0xC0108102`, `PACKET3_DMA_DATA` `0x50`, walk the
    dev-vmid tree for the victim 2 MB leaf, retarget with bit-50, DMA, restore
-   (`probe89/vmid7.elf`). *(NotSoTypicalGamer)*
+   (`probe89/vmid7.elf`). *(flatz)*
 5. **GPU-DMA read:** same, retarget the source leaf (bit-50) → dump `.text` / carve-out.
 6. **Lucky-boot watcher:** `probe98/hvwatch.elf` after every JB.
 
@@ -273,10 +273,10 @@ This research stands on the work of others who shared their findings:
 
 - **theflow0** — for finding the S3-resume `startup_mp` AP-launch bug.
 - **Sonic-Iso** — for the `s3-resume-startup_mp-ap-launch` write-up.
-- **PS5Dev** — for Byepervisor-Reborn, the working 13.60 exploit.
+- **ChendoChap** — for Byepervisor-Reborn, the working 13.60 exploit.
 - **cedsaill3** — for the sysent-hook technique and the `0x30` stride correction.
-- **The Relapse team** — for the kernel R/W primitive.
-- **Gezine** — for mast1c0re and the userland entrypoint.
+- **jordy** — for the kernel R/W primitive.
+- **CTurt** (mast1c0re) and **Gezine** (Luac0re) — for the userland entrypoint.
 - **sleirsgoevy** — for the single-step kernel recovery technique.
 
 ---
