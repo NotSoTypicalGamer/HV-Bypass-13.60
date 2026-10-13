@@ -1,8 +1,13 @@
 # PS5 13.60 Hypervisor Bypass
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 A how-to for defeating the PS5 **13.60** hypervisor, from the primitives (kernel R/W,
 GPU-DMA) to the working exploit. Assumes you know what a hypervisor and a syscall are,
 but not the PS5 specifics — those are explained inline.
+
+> **Disclaimer:** research and educational purposes only; provided as-is, with no warranty
+> and no affiliation with Sony Interactive Entertainment.
 
 > **Status: CONFIRMED LIVE (2026-10-12).** Byepervisor-Reborn defeated the hypervisor on a
 > real 13.60 console. Verified: kernel `.text` reads **plaintext** (xotext/XOM off), `.text`
