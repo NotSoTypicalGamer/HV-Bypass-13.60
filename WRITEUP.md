@@ -276,5 +276,4 @@ This research stands on the work of others who shared their findings:
 
 ---
 
-*`README.md` = one-line state; `kernel/HANDOFF.md` = full rolling log with every probe
-result; `kernel/*.md` = individual investigations.*
+*`README.md` = one-line state; `kernel/*.md` = individual investigations.*

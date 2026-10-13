@@ -6,3 +6,7 @@
 *.bin
 *.json
 *.tsv
+
+# Internal working notes (not for public)
+handoff.md
+kernel/HANDOFF.md
