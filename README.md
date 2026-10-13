@@ -287,3 +287,4 @@ This research stands on the work of others who shared their findings:
 - `kernel/reference/` — vendored public reference sources (cedsaill3, WAK1360-Relapse, cragson, ps5linux).
 - `kernel/hv_dump/` — HV-dump analysis scripts.
 - `probes/` — payload/build sources (GPU-DMA, HV scan, watcher, S3 AP-launch).
+- `poc/` — the working PoC payload (Byepervisor-Reborn, "HV Bypass Hello World" toast).
