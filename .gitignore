@@ -1,0 +1,8 @@
+# Build artifacts
+*.o
+*.elf
+
+# Dump / analysis data artifacts
+*.bin
+*.json
+*.tsv
