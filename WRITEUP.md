@@ -262,5 +262,19 @@ Toolchain: LLVM 23 (`clang -target x86_64-sie-ps5`) + `ps5-payload-sdk` v0.43, l
 
 ---
 
+## Thanks
+
+This research stands on the work of others who shared their findings:
+
+- **theflow0** — for finding the S3-resume `startup_mp` AP-launch bug.
+- **Sonic-Iso** — for the `s3-resume-startup_mp-ap-launch` write-up.
+- **PS5Dev** — for Byepervisor-Reborn, the working 13.60 exploit.
+- **cedsaill3** — for the sysent-hook technique and the `0x30` stride correction.
+- **The Relapse team** — for the kernel R/W primitive.
+- **Gezine** — for mast1c0re and the userland entrypoint.
+- **sleirsgoevy** — for the single-step kernel recovery technique.
+
+---
+
 *`README.md` = one-line state; `kernel/HANDOFF.md` = full rolling log with every probe
 result; `kernel/*.md` = individual investigations.*
