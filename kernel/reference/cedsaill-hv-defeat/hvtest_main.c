@@ -36,7 +36,7 @@ extern int sceKernelMapNamedDirectMemory(void **, size_t, int, int, uint64_t, si
 
 /* ---- config --------------------------------------------------------------- */
 /* PC cible pour les logs TCP - remplacer par votre IP */
-#define PC_IP    "192.168.1.100"
+#define PC_IP    "192.168.1.x"
 #define PC_PORT   9999
 
 /* ---- FW 9.60 offsets ------------------------------------------------------ */

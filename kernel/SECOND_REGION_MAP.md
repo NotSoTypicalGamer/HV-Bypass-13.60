@@ -1,6 +1,6 @@
 # SECOND REGION MAP — TMR / psp_mbox / a53mm / IOMMU static state (13.60)
 
-Author: subagent pointer-cluster analysis, 2026-10-05. Offline, Python-only, against
+Author: pointer-cluster analysis, 2026-10-05. Offline, Python-only, against
 `kdata_1360.bin` (15 MB, `.data` base `0xffffffffd0930000`) + cross-checked against
 `kdata_761.bin`. FreeBSD 11.0 has **no** AMD-Vi/ccp driver (`sys/x86/iommu/` is Intel-only), so the
 IOMMU/TMR/psp_mbox code is **Sony-original** (a53mm module family); FreeBSD source is not an

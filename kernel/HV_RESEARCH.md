@@ -51,7 +51,7 @@ the **NPT lead** (the `hvscan.elf` physical-memory sweep), then dumped from the 
 alias. The two work together: kdata → IOMMU write primitive + VMCALL trigger; NPT lead → the HV's
 actual pages to patch.
 
-## 2026-10-05 cross-reference + findings (from agents + public research)
+## 2026-10-05 cross-reference + findings (from passes + public research)
 
 **Public confirmation (cragson/ps5-hen `hv_defeat.h`):** TMR_CFG_PERMISSIVE=0x3F07, VMCB_NP_ENABLE=0x90,
 VMCB_TLB_CONTROL=0x58 (the ASID field), TMR_CONFIG(n)=n*0x10+0x08, TMR index/data ports 0x80/0x84,

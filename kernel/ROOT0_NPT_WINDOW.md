@@ -70,7 +70,7 @@ vmid 7) CAN reach the VMCB. The earlier "host-PA 0x8xxxxxxxx (32–35 GB, from v
 was a misread — discard it. (Old ≤7.61 anchors 0x62xxxxxx are ABOVE this band; on 13.60 the
 HV region is at 0x60600000+.)
 
-## Definitive verdict (4 research agents + live bit-47 test, 2026-10-06)
+## Definitive verdict (4 research passes + live bit-47 test, 2026-10-06)
 
 - **SME is AES-128-XTS**, key in the AMD-SP, never exposed to x86 — a hard wall (tekingame +
   AMD whitepaper).

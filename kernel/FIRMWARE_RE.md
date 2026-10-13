@@ -184,12 +184,12 @@ The 4.03 kernel `.data` dump holds **two separate Marvell firmware images** (bot
   init, so descriptor `value`/handler fields are not statically resolvable. Vendor params land in
   a BSS array at `*(0x001110a4) = 0x001715c8`.
 
-## 10. Status & remaining work (updated after 3-agent fan-out)
+## 10. Status & remaining work (updated after 3-pass parallel)
 
 - **Done:** both firmware images located + extracted, memory maps resolved, both images' vendor
   dispatchers decompiled, and the MAIN image's `FUN_00111064`→`FUN_0012bb14`→`FUN_0012bae4`
   param-lookup machinery fully traced (node layout `{opcode,len,value,flags,next}` recovered).
-- **Three parallel agents confirmed the negative and surfaced two new leads:**
+- **Three parallel passes confirmed the negative and surfaced two new leads:**
   - *USB transport layer:* an exhaustive Thumb-2 scalar scan found **zero** `0xFC01`/`0xFC02`
     immediates and zero literal-pool words in the BT RTOS. The USB layer exists (`bt_usb` @0x8c0e8,
     `bt_hci` @0x81ebc, TRAN thread @0x82468) but does **not** dispatch 0xFC01/0xFC02. **KEY:** the
